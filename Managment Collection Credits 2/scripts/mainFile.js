@@ -2027,18 +2027,21 @@ FileApp.prototype = {
         }
     },
     _onSuccessLogin: function(value) {
+        var parse, parsels;
         resultTextData = value;
 
         resultTextData = resultTextData.replace(/	/g, '');
-        
+        //resultTextData = resultTextData.replace(/"0.0000"/g, '"0"');
+        resultTextData = resultTextData.replace(/.0000"/g, '"');
         var ls = localStorageApp.getVariable(fileSelName);
         if (ls !== null && ls !== '') {
             try {
-                var parse = JSON.parse(resultTextData);
-                var parsels = JSON.parse(ls);
+                parse = JSON.parse(resultTextData);
+                parsels = JSON.parse(ls);
                 
                 if (parse.uuidFile == parsels.uuidFile) {
                     resultTextData = ls;
+                    resultTextData = resultTextData.replace(/.0000"/g, '"');
                 }else {
                     localStorageApp.insertVariable('geoMcc', '');
                     localStorageApp.insertVariable(fileSelName, resultTextData);
@@ -2049,6 +2052,9 @@ FileApp.prototype = {
             localStorageApp.insertVariable('geoMcc', '');
             localStorageApp.insertVariable(fileSelName, resultTextData);    
         }
+        
+        parse = null;
+        parsels = null;
         
         //console.log(localStorageApp.getVariable('localStore'));
         setTimeout(function() {
@@ -2131,7 +2137,7 @@ FileApp.prototype = {
     },
     saveNewFile:function() {
         $.mobile.loading("show", {
-                             text: 'Generando Archivo 4...',
+                             text: 'Generando Archivo ...',
                              textVisible: true,
                              theme: 'a',
                              textonly: false
@@ -2176,7 +2182,6 @@ FileApp.prototype = {
         }catch (ex) {
             showAlert(ps);
             showAlert(ex);
-            
         }        
         
         return;
