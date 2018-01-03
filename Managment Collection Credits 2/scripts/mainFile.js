@@ -1124,6 +1124,9 @@ FileApp.prototype = {
                                 //if(itemCr.abonos[ab].nuevo == 1){
                                 //    abNew = itemCr.abonos[ab];
                                 //}else{
+                                if (itemCr.abonos[ab].monto == "") {
+                                    itemCr.abonos[ab].monto = 0;
+                                }
                                 sumaTotal += parseFloat(itemCr.abonos[ab].monto);
                                 //}
                             }
@@ -2031,8 +2034,6 @@ FileApp.prototype = {
         resultTextData = value;
 
         resultTextData = resultTextData.replace(/	/g, '');
-        //resultTextData = resultTextData.replace(/"0.0000"/g, '"0"');
-        resultTextData = resultTextData.replace(/.0000"/g, '"');
         var ls = localStorageApp.getVariable(fileSelName);
         if (ls !== null && ls !== '') {
             try {
@@ -2041,14 +2042,17 @@ FileApp.prototype = {
                 
                 if (parse.uuidFile == parsels.uuidFile) {
                     resultTextData = ls;
-                    resultTextData = resultTextData.replace(/.0000"/g, '"');
+                    resultTextData = resultTextData.replace(/0.0000/g, '0');
                 }else {
+                    resultTextData = resultTextData.replace(/0.0000/g, '0');
                     localStorageApp.insertVariable('geoMcc', '');
                     localStorageApp.insertVariable(fileSelName, resultTextData);
                 }
             }catch (ex) {
+                alert(ex);
             }
         }else {
+            resultTextData = resultTextData.replace(/0.0000/g, '0');
             localStorageApp.insertVariable('geoMcc', '');
             localStorageApp.insertVariable(fileSelName, resultTextData);    
         }
@@ -2175,10 +2179,14 @@ FileApp.prototype = {
             
             //localStorageApp.insertVariable(fileSelName, JSON.stringify(me.client));        
             ps = 2;
-            //fileSystemHelper.deleteFile('DownLoadMcc/' + fileDownName, readSuccessDown, readSuccessDown);
+            fileSystemHelper.deleteFile('DownLoadMcc/' + fileDownName, 
+                                        function() {                
+                                            fileSystemHelper.writeLine('DownLoadMcc/' + fileDownName, JSON.stringify(me.client), sccDown, errDown)
+                                        }, function() {                
+                                            fileSystemHelper.writeLine('DownLoadMcc/' + fileDownName, JSON.stringify(me.client), sccDown, errDown)
+                                        });
             ps = 3;
-            
-            fileSystemHelper.writeLine('DownLoadMcc/' + fileDownName, JSON.stringify(me.client), sccDown, errDown)
+            //fileSystemHelper.writeLine('DownLoadMcc/' + fileDownName, JSON.stringify(me.client), sccDown, errDown)
         }catch (ex) {
             showAlert(ps);
             showAlert(ex);
@@ -2618,4 +2626,10 @@ function checkConnection() {
 
     return states[networkState];
 }
-//]]>
+
+function resetFileDataMCC(){
+    
+    localStorage.setItem(fileSelName, '');
+    alert('Archivo reiniciado');
+}
+
