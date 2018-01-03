@@ -6,7 +6,7 @@
   "DisplayName": "Managment Collection Credits 2",
   "Author": "",
   "Description": "Managment Collection Credits 2",
-  "BundleVersion": "1.0",
+  "BundleVersion": "1.0.6",
   "AndroidVersionCode": "1",
   "iOSDeviceFamily": [
     "1",
@@ -41,5 +41,6 @@
     "ID_RESOLUTION_WVGA",
     "ID_RESOLUTION_WXGA",
     "ID_RESOLUTION_HD720P"
-  ]
+  ],
+  "iOSDeploymentTarget": "6.0"
 }
