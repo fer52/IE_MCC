@@ -434,8 +434,8 @@ FileApp.prototype = {
             
             if (idCliente === item.idCliente) {
                 info += 'Nombre: ' + item.Nombre; 
-                info += '<br/>Teléfono: ' + item.Telefono;
-                info += '<br/>Domicilio: ' + item.domicilio;
+                info += '<br/>Teléfono: ' + (item.Telefono ? item.Telefono : item.tl);
+                info += '<br/>Domicilio: ' + (item.domicilio ? item.domicilio :item.dm);
                 break;
             }                
         }
@@ -2032,9 +2032,14 @@ FileApp.prototype = {
     _onSuccessLogin: function(value) {
         var parse, parsels;
         resultTextData = value;
-
-        resultTextData = resultTextData.replace(/	/g, '');
+        
         var ls = localStorageApp.getVariable(fileSelName);
+        try {
+            localStorageApp._clearLocalStorage();
+        }catch (ex) {
+            localStorageApp.insertVariable(fileSelName, ls);
+        }
+        
         if (ls !== null && ls !== '') {
             try {
                 parse = JSON.parse(resultTextData);
@@ -2042,9 +2047,17 @@ FileApp.prototype = {
                 
                 if (parse.uuidFile == parsels.uuidFile) {
                     resultTextData = ls;
+                    resultTextData = resultTextData.replace(/	/g, '');
+                    resultTextData = resultTextData.replace(/            /g, '');
                     resultTextData = resultTextData.replace(/0.0000/g, '0');
+                    resultTextData = resultTextData.replace(/Telefono/g, 'tl');
+                    resultTextData = resultTextData.replace(/domicilio/g, 'dm');
                 }else {
+                    resultTextData = resultTextData.replace(/	/g, '');
+                    resultTextData = resultTextData.replace(/            /g, '');
                     resultTextData = resultTextData.replace(/0.0000/g, '0');
+                    resultTextData = resultTextData.replace(/Telefono/g, 'tl');
+                    resultTextData = resultTextData.replace(/domicilio/g, 'dm');
                     localStorageApp.insertVariable('geoMcc', '');
                     localStorageApp.insertVariable(fileSelName, resultTextData);
                 }
@@ -2052,7 +2065,11 @@ FileApp.prototype = {
                 alert(ex);
             }
         }else {
+            resultTextData = resultTextData.replace(/	/g, '');
+            resultTextData = resultTextData.replace(/            /g, '');
             resultTextData = resultTextData.replace(/0.0000/g, '0');
+            resultTextData = resultTextData.replace(/Telefono/g, 'tl');
+            resultTextData = resultTextData.replace(/domicilio/g, 'dm');
             localStorageApp.insertVariable('geoMcc', '');
             localStorageApp.insertVariable(fileSelName, resultTextData);    
         }
@@ -2627,9 +2644,7 @@ function checkConnection() {
     return states[networkState];
 }
 
-function resetFileDataMCC(){
-    
+function resetFileDataMCC() {
     localStorage.setItem(fileSelName, '');
     alert('Archivo reiniciado');
 }
-
