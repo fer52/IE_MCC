@@ -462,6 +462,9 @@ FileApp.prototype = {
         
         $('#lblCreditoHist').text(idCredito);        
         
+        var detailHistory = $('#lstViewDetail');
+        var dias = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
+             
         for (index = 0; index < lst.length; index++) {
             item = lst[index];
             
@@ -474,7 +477,11 @@ FileApp.prototype = {
                         for (indexAbono = 0; indexAbono < itemCr.abonos.length; ++indexAbono) {
                             itemAb = itemCr.abonos[indexAbono];
                             
-                            $('#lstViewDetail').append('<li class="ui-btn-icon-right"><a> ' + itemAb.fecha + ' - ' + itemAb.monto + '</a></li>').listview('refresh');
+                            var f = itemAb.fecha;                                
+                            var dt = new Date(f.substr(0, 4), f.substr(5, 2) - 1, f.substr(8, 2));
+                            var dStr = dias[dt.getUTCDay()];
+                            var icon = parseFloat(itemAb.monto) > 0 ? 'ui-btn-icon-right':'';
+                            detailHistory.append('<li class="' + icon + '"><a> ' + dStr + ' ' + itemAb.fecha + ' - ' + itemAb.monto + '</a></li>');
                         }            
                         break;                            
                     }                
@@ -482,6 +489,8 @@ FileApp.prototype = {
                 break;
             }                
         }     
+        
+        detailHistory.listview('refresh');
     },
     pagineoPend: function(btn, index) {
         //return;               
@@ -1514,9 +1523,10 @@ FileApp.prototype = {
         
         $('a.viewDetail, a.addSearchBonusD, a.historyCreditSearch, a.historyCreditAbono').click(function() {
             $.mobile.changePage("#viewDetail", { transition: "flip" });
-            console.log(this)
+            /*console.log(this)
             console.log($(this))
-            console.log($(this).attr('class'))
+            console.log($(this).attr('class'))*/
+            
             if ($(this).attr('class').indexOf('historyCreditAbono') != -1) {
                 if (this.itemColor === 1) {            
                     $("#returnHistory").attr("href", "#abonoRuta");  
@@ -1539,6 +1549,9 @@ FileApp.prototype = {
             var uidClient = it.attr('mccClientuuid');
             var lst = fileAppNew.client.cliente;
             //alert('historico' + it.attr('mccClientuuid'));
+            var detailHistory = $('#lstViewDetail');
+            var dias = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
+            
             for (index = 0; index < lst.length; index++) {
                 item = lst[index];
                 
@@ -1550,8 +1563,12 @@ FileApp.prototype = {
                         if (itemCr.idCredito === idCredito) {
                             for (indexAbono = 0; indexAbono < itemCr.abonos.length; ++indexAbono) {
                                 itemAb = itemCr.abonos[indexAbono];
-                                
-                                $('#lstViewDetail').append('<li class="ui-btn-icon-right"><a> ' + itemAb.fecha + ' - ' + itemAb.monto + '</a></li>').listview('refresh');                                
+                                                                
+                                var f = itemAb.fecha;                                
+                                var dt = new Date(f.substr(0, 4), f.substr(5, 2) - 1, f.substr(8, 2));
+                                var dStr = dias[dt.getUTCDay()];
+                                var icon = parseFloat(itemAb.monto) > 0 ? 'ui-btn-icon-right':'';
+                                detailHistory.append('<li class="' + icon + '"><a> ' + dStr + ' ' + itemAb.fecha + ' - ' + itemAb.monto + '</a></li>');
                             }            
                             break;                            
                         }                
@@ -1560,6 +1577,8 @@ FileApp.prototype = {
                 }                
             }     
            
+            detailHistory.listview('refresh');
+            
             it = index = indexCr = indexAbono = item = itemCr = itemAb = idCliente = idCredito = lst = null;
         });
         
@@ -1945,7 +1964,7 @@ FileApp.prototype = {
         textonly = false;*/
         //alert('new');
         $.mobile.loading("show", {
-                             text: 'Cargando...',
+                             text: 'Cargando Datos...',
                              textVisible: true,
                              theme: 'a',
                              textonly: false
@@ -1966,7 +1985,7 @@ FileApp.prototype = {
         var that = this;  
         
         $.mobile.loading("show", {
-                             text: 'Cargando...',
+                             text: 'Cargando Datos...',
                              textVisible: true,
                              theme: 'a',
                              textonly: false
@@ -2032,35 +2051,62 @@ FileApp.prototype = {
     _onSuccessLogin: function(value) {
         var parse, parsels;
         resultTextData = value;
-        
-        var ls = localStorageApp.getVariable(fileSelName);
+
         try {
+            var ls = localStorageApp.getVariable(fileSelName);
             localStorageApp._clearLocalStorage();
         }catch (ex) {
-            localStorageApp.insertVariable(fileSelName, ls);
+            showAlert(ex)
+            //localStorageApp.insertVariable(fileSelName, ls);
         }
-        
+
         if (ls !== null && ls !== '') {
             try {
                 parse = JSON.parse(resultTextData);
                 parsels = JSON.parse(ls);
                 
-                if (parse.uuidFile == parsels.uuidFile) {
-                    resultTextData = ls;
-                    resultTextData = resultTextData.replace(/	/g, '');
-                    resultTextData = resultTextData.replace(/            /g, '');
-                    resultTextData = resultTextData.replace(/0.0000/g, '0');
-                    resultTextData = resultTextData.replace(/Telefono/g, 'tl');
-                    resultTextData = resultTextData.replace(/domicilio/g, 'dm');
+                /*if (parse.uuidFile == parsels.uuidFile) {
+                resultTextData = ls;
+                resultTextData = resultTextData.replace(/	/g, '');
+                resultTextData = resultTextData.replace(/            /g, '');
+                resultTextData = resultTextData.replace(/0.0000/g, '0');
+                resultTextData = resultTextData.replace(/Telefono/g, 'tl');
+                resultTextData = resultTextData.replace(/domicilio/g, 'dm');
                 }else {
-                    resultTextData = resultTextData.replace(/	/g, '');
-                    resultTextData = resultTextData.replace(/            /g, '');
-                    resultTextData = resultTextData.replace(/0.0000/g, '0');
-                    resultTextData = resultTextData.replace(/Telefono/g, 'tl');
-                    resultTextData = resultTextData.replace(/domicilio/g, 'dm');
-                    localStorageApp.insertVariable('geoMcc', '');
-                    localStorageApp.insertVariable(fileSelName, resultTextData);
+                resultTextData = resultTextData.replace(/	/g, '');
+                resultTextData = resultTextData.replace(/            /g, '');
+                resultTextData = resultTextData.replace(/0.0000/g, '0');
+                resultTextData = resultTextData.replace(/Telefono/g, 'tl');
+                resultTextData = resultTextData.replace(/domicilio/g, 'dm');
+                localStorageApp.insertVariable('geoMcc', '');
+                localStorageApp.insertVariable(fileSelName, resultTextData);
+                }*/
+                
+                if (parse.uuidFile == parsels.uuidFile) {
+                    resultTextData = ls;                    
+                }else {
+                    //                    
                 }
+                resultTextData = resultTextData.replace(/	/g, '');
+                resultTextData = resultTextData.replace(/            /g, '');
+                resultTextData = resultTextData.replace(/0.0000/g, '0');
+                resultTextData = resultTextData.replace(/Telefono/g, 'tl');
+                resultTextData = resultTextData.replace(/domicilio/g, 'dm');
+                resultTextData = resultTextData.replace(/lun 2/g, '2');
+                resultTextData = resultTextData.replace(/mar 2/g, '2');
+                resultTextData = resultTextData.replace(/mié 2/g, '2');
+                resultTextData = resultTextData.replace(/jue 2/g, '2');
+                resultTextData = resultTextData.replace(/vie 2/g, '2');
+                resultTextData = resultTextData.replace(/sáb 2/g, '2');
+                resultTextData = resultTextData.replace(/dom 2/g, '2');
+
+                try {
+                    resultTextData = onResumeHistory(resultTextData)    
+                } catch (ex) {
+                    showAlert(ex.message);
+                }
+                localStorageApp.insertVariable('geoMcc', '');
+                localStorageApp.insertVariable(fileSelName, resultTextData);
             }catch (ex) {
                 alert(ex);
             }
@@ -2070,18 +2116,28 @@ FileApp.prototype = {
             resultTextData = resultTextData.replace(/0.0000/g, '0');
             resultTextData = resultTextData.replace(/Telefono/g, 'tl');
             resultTextData = resultTextData.replace(/domicilio/g, 'dm');
+            resultTextData = resultTextData.replace(/lun 2/g, '2');
+            resultTextData = resultTextData.replace(/mar 2/g, '2');
+            resultTextData = resultTextData.replace(/mié 2/g, '2');
+            resultTextData = resultTextData.replace(/jue 2/g, '2');
+            resultTextData = resultTextData.replace(/vie 2/g, '2');
+            resultTextData = resultTextData.replace(/sáb 2/g, '2');
+            resultTextData = resultTextData.replace(/dom 2/g, '2');
+            try {
+                resultTextData = onResumeHistory(resultTextData)    
+            } catch (ex) {
+                showAlert(ex.message);
+            }
+            
             localStorageApp.insertVariable('geoMcc', '');
             localStorageApp.insertVariable(fileSelName, resultTextData);    
         }
-        
+
         parse = null;
         parsels = null;
         
-        //console.log(localStorageApp.getVariable('localStore'));
-        setTimeout(function() {
-            $.mobile.loading("hide")
-        }, 1000);
-    },
+        $.mobile.loading("hide");
+    },    
     _onSuccessLoad: function(value) {        
         resultTextDataLoad = value;
         localStorageApp.insertVariable('localStoreLoad', resultTextDataLoad);
@@ -2647,4 +2703,53 @@ function checkConnection() {
 function resetFileDataMCC() {
     localStorage.setItem(fileSelName, '');
     alert('Archivo reiniciado');
+}
+
+function onResumeHistory(value) {
+    var newValue = JSON.parse(value);
+        
+    $.mobile.loading("show", {
+                         text: 'Transformando datos...',
+                         textVisible: true,
+                         theme: 'a',
+                         textonly: false
+                     });
+        
+    //for (indexCr = 0; indexCr < item.creditos.length; indexCr++) {
+    if (newValue.cliente) {
+        newValue.cliente.forEach(function(cl, i) {
+            if (cl.creditos) {
+                cl.creditos.forEach(function(cr, j) {
+                    if (cr.abonos) {
+                        var newAb = [];
+                            
+                        cr.abonos.forEach(function(ab, h) {
+                            if (ab.nuevo != 1) {
+                                var abExist = false;
+                                var indexAb = -1;
+                                newAb.forEach(function(nAb, k) {
+                                    if (nAb.fecha == ab.fecha) {
+                                        abExist = true;
+                                        indexAb = k;    
+                                    }
+                                })
+                                    
+                                if (abExist && newAb[indexAb].nuevo != 1) {
+                                    newAb[indexAb].monto = parseFloat(newAb[indexAb].monto) + parseFloat(ab.monto);
+                                }else {
+                                    newAb.push(ab);    
+                                }
+                            }else {
+                                newAb.push(ab);
+                            }
+                        })
+                            
+                        cr.abonos = newAb;
+                    }
+                })
+            }
+        })    
+    }
+        
+    return JSON.stringify(newValue);
 }
