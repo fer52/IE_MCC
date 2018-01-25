@@ -478,7 +478,8 @@ FileApp.prototype = {
                             itemAb = itemCr.abonos[indexAbono];
                             
                             var f = itemAb.fecha;                                
-                            var dt = new Date(f.substr(0, 4), f.substr(5, 2) - 1, f.substr(8, 2));
+                            var fL = f.split('-')
+                            var dt = new Date(fL[0], parseFloat(fL[1]) - 1, fL[2]);
                             var dStr = dias[dt.getUTCDay()];
                             var icon = parseFloat(itemAb.monto) > 0 ? 'ui-btn-icon-right':'';
                             detailHistory.append('<li class="' + icon + '"><a> ' + dStr + ' ' + itemAb.fecha + ' - ' + itemAb.monto + '</a></li>');
@@ -1565,7 +1566,8 @@ FileApp.prototype = {
                                 itemAb = itemCr.abonos[indexAbono];
                                                                 
                                 var f = itemAb.fecha;                                
-                                var dt = new Date(f.substr(0, 4), f.substr(5, 2) - 1, f.substr(8, 2));
+                                var fL = f.split('-')
+                                var dt = new Date(fL[0], parseFloat(fL[1]) - 1, fL[2]);
                                 var dStr = dias[dt.getUTCDay()];
                                 var icon = parseFloat(itemAb.monto) > 0 ? 'ui-btn-icon-right':'';
                                 detailHistory.append('<li class="' + icon + '"><a> ' + dStr + ' ' + itemAb.fecha + ' - ' + itemAb.monto + '</a></li>');
