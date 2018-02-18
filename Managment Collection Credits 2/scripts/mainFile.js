@@ -2092,6 +2092,7 @@ FileApp.prototype = {
                 resultTextData = resultTextData.replace(/	/g, '');
                 resultTextData = resultTextData.replace(/            /g, '');
                 resultTextData = resultTextData.replace(/0.0000/g, '0');
+                resultTextData = resultTextData.replace(/0.00/g, '0');
                 resultTextData = resultTextData.replace(/Telefono/g, 'tl');
                 resultTextData = resultTextData.replace(/domicilio/g, 'dm');
                 resultTextData = resultTextData.replace(/lun 2/g, '2');
@@ -2116,6 +2117,7 @@ FileApp.prototype = {
             resultTextData = resultTextData.replace(/	/g, '');
             resultTextData = resultTextData.replace(/            /g, '');
             resultTextData = resultTextData.replace(/0.0000/g, '0');
+            resultTextData = resultTextData.replace(/0.00/g, '0');
             resultTextData = resultTextData.replace(/Telefono/g, 'tl');
             resultTextData = resultTextData.replace(/domicilio/g, 'dm');
             resultTextData = resultTextData.replace(/lun 2/g, '2');
@@ -2736,9 +2738,10 @@ function onResumeHistory(value) {
                                     }
                                 })
                                     
+                                ab.monto = parseFloat(ab.monto);
                                 if (abExist && newAb[indexAb].nuevo != 1) {
                                     newAb[indexAb].monto = parseFloat(newAb[indexAb].monto) + parseFloat(ab.monto);
-                                }else {
+                                }else {                                    
                                     newAb.push(ab);    
                                 }
                             }else {
