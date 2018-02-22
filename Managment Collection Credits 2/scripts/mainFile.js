@@ -17,7 +17,7 @@ var fileSelName = 'dataMcc';
 var fileDownName = 'dataMccLoad';        
 
 function onDeviceReady() {
-    navigator.splashscreen.hide();
+    //navigator.splashscreen.hide();
     fileAppNew = new FileApp();
     fileAppNew.run();
 }
@@ -2091,8 +2091,8 @@ FileApp.prototype = {
                 }
                 resultTextData = resultTextData.replace(/	/g, '');
                 resultTextData = resultTextData.replace(/            /g, '');
-                resultTextData = resultTextData.replace(/0.0000/g, '0');
-                resultTextData = resultTextData.replace(/0.00/g, '0');
+                resultTextData = resultTextData.replace(/0\.0000/g, '0');
+                resultTextData = resultTextData.replace(/0\.00/g, '0');
                 resultTextData = resultTextData.replace(/Telefono/g, 'tl');
                 resultTextData = resultTextData.replace(/domicilio/g, 'dm');
                 resultTextData = resultTextData.replace(/lun 2/g, '2');
@@ -2116,8 +2116,8 @@ FileApp.prototype = {
         }else {
             resultTextData = resultTextData.replace(/	/g, '');
             resultTextData = resultTextData.replace(/            /g, '');
-            resultTextData = resultTextData.replace(/0.0000/g, '0');
-            resultTextData = resultTextData.replace(/0.00/g, '0');
+            resultTextData = resultTextData.replace(/0\.0000/g, '0');
+            resultTextData = resultTextData.replace(/0\.00/g, '0');
             resultTextData = resultTextData.replace(/Telefono/g, 'tl');
             resultTextData = resultTextData.replace(/domicilio/g, 'dm');
             resultTextData = resultTextData.replace(/lun 2/g, '2');

@@ -10,7 +10,7 @@ var urlCloud = "http://appmcc.websolutions.com.gt/device.ashx";
 
 
 function onDeviceReady() {
-	navigator.splashscreen.hide();
+	//navigator.splashscreen.hide();
 	deviceInfoApp = new deviceInfoApp();
 	deviceInfoApp.run();
 }

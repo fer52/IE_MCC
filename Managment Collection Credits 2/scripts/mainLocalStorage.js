@@ -1,7 +1,7 @@
 document.addEventListener("deviceready", onDeviceReady, false);
 
 function onDeviceReady() {
-    navigator.splashscreen.hide();
+    //navigator.splashscreen.hide();
 	localStorageApp = new localStorageApp();
 	localStorageApp.run();
 }
