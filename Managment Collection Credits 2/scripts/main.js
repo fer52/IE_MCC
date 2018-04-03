@@ -75,19 +75,6 @@ mccApp.prototype = function() {
             $.mobile.changePage("#logon", { transition: "flip" });
         });
         
-        /*$(".rfile").bind("change",function(e,ui){
-            
-            alert($("input:radio[name ='groupFile']:checked").val());    
-        })*/
-        
-        /*
-        $("#selectFile").bind("change", function(event, ui){
-            alert(this.value);
-            fileSelName = this.value;
-            fileDownName = 'dataMccLoad' + this.value;
-            fileAppNew.loadDataFile();
-        });*/
-        
         $("#txtAbono").bind("change", function(event, ui){
             fileAppNew.changeSaldoActual(this.value);
         });

@@ -76,8 +76,8 @@ FileApp.prototype = {
                 
                 var ab;
                 for (ab in itemCr.abonos) {
-                    if (itemCr.abonos[ab].nuevo == 1 && itemCr.abonos[ab].fecha == selDate) {
-                        itemCr.abonos[ab].fecha = setNewDate;
+                    if (itemCr.abonos[ab].n == 1 && itemCr.abonos[ab].f == selDate) {
+                        itemCr.abonos[ab].f = setNewDate;
                     }
                 }                    
             }
@@ -125,8 +125,8 @@ FileApp.prototype = {
                 
                 var ab;
                 for (ab in itemCr.abonos) {
-                    if (itemCr.abonos[ab].nuevo == 1 && lstDates.indexOf(itemCr.abonos[ab].fecha) == -1) {
-                        lstDates.push(itemCr.abonos[ab].fecha)    
+                    if (itemCr.abonos[ab].n == 1 && lstDates.indexOf(itemCr.abonos[ab].f) == -1) {
+                        lstDates.push(itemCr.abonos[ab].f)    
                     }
                 }                    
             }
@@ -168,9 +168,9 @@ FileApp.prototype = {
                 itemCr = lst[i].creditos[indexCr];
             
                 itemCr.abonos.splice(0, 0, {
-                                         "nuevo":1,
-                                         "monto":0,
-                                         "fecha":fecha
+                                         "n":1,
+                                         "m":0,
+                                         "f":fecha
                                      });
             }
         }       
@@ -185,9 +185,9 @@ FileApp.prototype = {
                     itemCr = lstComplete[i].creditos[indexCr];
                     if (itemCr.uuidPromotor != this.client.uuid) {
                         itemCr.abonos.splice(0, 0, {
-                                                 "nuevo":1,
-                                                 "monto":0,
-                                                 "fecha":fecha
+                                                 "n":1,
+                                                 "m":0,
+                                                 "f":fecha
                                              });
                     }
                 }
@@ -315,26 +315,26 @@ FileApp.prototype = {
                             itemAb = itemCr.abonos[indexAb];
 
                             dateSel = getSelDate();
-                            if (itemAb.fecha.toString().indexOf('/') > 0) {
-                                sp = itemAb.fecha.toString().split('/');
+                            if (itemAb.f.toString().indexOf('/') > 0) {
+                                sp = itemAb.f.toString().split('/');
                                 dateCr = new Date(sp[2], parseFloat(sp[1]) - 1, sp[0]);
                             }else {
-                                sp = itemAb.fecha.toString().split('-');
+                                sp = itemAb.f.toString().split('-');
                                 dateCr = new Date(sp[0], parseFloat(sp[1]) - 1, sp[2]);
                             }                                
 
-                            if (itemAb.nuevo == 1 && dateSel.getDate() == dateCr.getDate()) {
+                            if (itemAb.n == 1 && dateSel.getDate() == dateCr.getDate()) {
                                 if (validatePay) {
                                     color = true;
                                     classSelect = 'addbonusRuta';
                                         
-                                    cuota = itemAb.monto;
+                                    cuota = itemAb.m;
                                     validatePay = false;
                                 }
                                 sumaAbDia += 1;
                                 //break;
                             }                                
-                            sumaTotal += parseFloat(itemAb.monto);
+                            sumaTotal += parseFloat(itemAb.m);
                         }
                         //console.log((parseFloat(itemCr.monto) + parseFloat(itemCr.interes)));
                         //console.log(parseFloat(sumaTotal)) 
@@ -352,18 +352,18 @@ FileApp.prototype = {
                         itemAb = itemCr.abonos[indexAb];
                             
                         dateSel = getSelDate();
-                        if (itemAb.fecha.toString().indexOf('/') > 0) {
-                            sp = itemAb.fecha.toString().split('/');
+                        if (itemAb.f.toString().indexOf('/') > 0) {
+                            sp = itemAb.f.toString().split('/');
                             dateCr = new Date(sp[2], parseFloat(sp[1]) - 1, sp[0]);
                         }else {
-                            sp = itemAb.fecha.toString().split('-');
+                            sp = itemAb.f.toString().split('-');
                             dateCr = new Date(sp[0], parseFloat(sp[1]) - 1, sp[2]);
                         }      
                             
-                        if (itemAb.nuevo == 1 && dateSel.getDate() == dateCr.getDate()) {
+                        if (itemAb.n == 1 && dateSel.getDate() == dateCr.getDate()) {
                             color = true;
                             classSelect = 'addbonusRuta';
-                            cuota = itemAb.monto;
+                            cuota = itemAb.m;
                                 
                             break;
                         }
@@ -376,15 +376,15 @@ FileApp.prototype = {
                         //var nowF = getSelDate();var fecha = now.getFullYear().toString() + '-' + (now.getMonth()+1).toString() + '-' + now.getDate().toString();
 
                         dateSel = getSelDate();
-                        if (itemAb.fecha.toString().indexOf('/') > 0) {
-                            sp = itemAb.fecha.toString().split('/');
+                        if (itemAb.f.toString().indexOf('/') > 0) {
+                            sp = itemAb.f.toString().split('/');
                             dateCr = new Date(sp[2], parseFloat(sp[1]) - 1, sp[0]);
                         }else {
-                            sp = itemAb.fecha.toString().split('-');
+                            sp = itemAb.f.toString().split('-');
                             dateCr = new Date(sp[0], parseFloat(sp[1]) - 1, sp[2]);
                         }                                
 
-                        if (itemAb.nuevo == 1 && dateSel.getDate() == dateCr.getDate()) {
+                        if (itemAb.n == 1 && dateSel.getDate() == dateCr.getDate()) {
                             sumaAbDia += 1;
                         }
                     }
@@ -477,12 +477,12 @@ FileApp.prototype = {
                         for (indexAbono = 0; indexAbono < itemCr.abonos.length; ++indexAbono) {
                             itemAb = itemCr.abonos[indexAbono];
                             
-                            var f = itemAb.fecha;                                
+                            var f = itemAb.f;                                
                             var fL = f.split('-')
                             var dt = new Date(fL[0], parseFloat(fL[1]) - 1, fL[2]);
                             var dStr = dias[dt.getUTCDay()];
-                            var icon = parseFloat(itemAb.monto) > 0 ? 'ui-btn-icon-right':'';
-                            detailHistory.append('<li class="' + icon + '"><a> ' + dStr + ' ' + itemAb.fecha + ' - ' + itemAb.monto + '</a></li>');
+                            var icon = parseFloat(itemAb.m) > 0 ? 'ui-btn-icon-right':'';
+                            detailHistory.append('<li class="' + icon + '"><a> ' + dStr + ' ' + itemAb.f + ' - ' + itemAb.m + '</a></li>');
                         }            
                         break;                            
                     }                
@@ -574,19 +574,19 @@ FileApp.prototype = {
                     itemAb = itemCr.abonos[indexAb];
                         
                     dateSel = getSelDate();
-                    if (itemAb.fecha.toString().indexOf('/') > 0) {
-                        sp = itemAb.fecha.toString().split('/');
+                    if (itemAb.f.toString().indexOf('/') > 0) {
+                        sp = itemAb.f.toString().split('/');
                         dateCr = new Date(sp[2], parseFloat(sp[1]) - 1, sp[0]);
                     }else {
-                        sp = itemAb.fecha.toString().split('-');
+                        sp = itemAb.f.toString().split('-');
                         dateCr = new Date(sp[0], parseFloat(sp[1]) - 1, sp[2]);
                     }       
                     
-                    if (itemAb.nuevo === 1 && dateSel.getDate() == dateCr.getDate()) {
+                    if (itemAb.n === 1 && dateSel.getDate() == dateCr.getDate()) {
                         styleStr = ' style="background-color:green;color:white" ';
                         color = true;
                             
-                        cuota = itemAb.monto;
+                        cuota = itemAb.m;
                             
                         break;
                     }
@@ -656,11 +656,11 @@ FileApp.prototype = {
                 for (indexAb=0;indexAb < itemCr.abonos.length;indexAb++) {
                     itemAb = itemCr.abonos[indexAb];
                         
-                    if (itemAb.nuevo === 1) {
+                    if (itemAb.n === 1) {
                         styleStr = ' style="background-color:green;color:white" ';
                         color = true;
                             
-                        cuota = itemAb.monto;
+                        cuota = itemAb.m;
                             
                         break;
                     }
@@ -779,19 +779,19 @@ FileApp.prototype = {
                 for (indexAb = 0; indexAb < itemCr.abonos.length; indexAb++) {
                     itemAb = itemCr.abonos[indexAb];
                     
-                    if (itemAb.fecha.toString().indexOf('/') > 0) {
-                        sp = itemAb.fecha.toString().split('/');
+                    if (itemAb.f.toString().indexOf('/') > 0) {
+                        sp = itemAb.f.toString().split('/');
                         dateCr = new Date(sp[2], parseFloat(sp[1]) - 1, sp[0]);
                     }else {
-                        sp = itemAb.fecha.toString().split('-');
+                        sp = itemAb.f.toString().split('-');
                         dateCr = new Date(sp[0], parseFloat(sp[1]) - 1, sp[2]);
                     }    
                     
-                    if (itemAb.nuevo === 1 && dateSel.getDate() == dateCr.getDate()) {
-                        if (parseFloat(itemAb.monto)) {
-                            sumaAbono += parseFloat(itemAb.monto);                        
+                    if (itemAb.n === 1 && dateSel.getDate() == dateCr.getDate()) {
+                        if (parseFloat(itemAb.m)) {
+                            sumaAbono += parseFloat(itemAb.m);                        
                         }else {
-                            itemAb.monto = 0;
+                            itemAb.m = 0;
                         }
                     }
                 }                
@@ -820,19 +820,19 @@ FileApp.prototype = {
                 for (indexAb = 0; indexAb < itemCr.abonos.length; indexAb++) {
                     itemAb = itemCr.abonos[indexAb];
                     
-                    if (itemAb.fecha.toString().indexOf('/') > 0) {
-                        sp = itemAb.fecha.toString().split('/');
+                    if (itemAb.f.toString().indexOf('/') > 0) {
+                        sp = itemAb.f.toString().split('/');
                         dateCr = new Date(sp[2], parseFloat(sp[1]) - 1, sp[0]);
                     }else {
-                        sp = itemAb.fecha.toString().split('-');
+                        sp = itemAb.f.toString().split('-');
                         dateCr = new Date(sp[0], parseFloat(sp[1]) - 1, sp[2]);
                     }    
                     
-                    if (itemAb.nuevo === 1 && dateSel.getDate() == dateCr.getDate()) {   
-                        if (parseFloat(itemAb.monto) == 0) {
+                    if (itemAb.n === 1 && dateSel.getDate() == dateCr.getDate()) {   
+                        if (parseFloat(itemAb.m) == 0) {
                             sumaEstimado -= parseFloat(itemCr.cuota);
                         }else {
-                            sumaEstimado += parseFloat(itemAb.monto);
+                            sumaEstimado += parseFloat(itemAb.m);
                         }
                         
                         isLoadAb = false;
@@ -1134,10 +1134,10 @@ FileApp.prototype = {
                                 //if(itemCr.abonos[ab].nuevo == 1){
                                 //    abNew = itemCr.abonos[ab];
                                 //}else{
-                                if (itemCr.abonos[ab].monto == "") {
-                                    itemCr.abonos[ab].monto = 0;
+                                if (itemCr.abonos[ab].m == "") {
+                                    itemCr.abonos[ab].m = 0;
                                 }
-                                sumaTotal += parseFloat(itemCr.abonos[ab].monto);
+                                sumaTotal += parseFloat(itemCr.abonos[ab].m);
                                 //}
                             }
                             
@@ -1146,9 +1146,9 @@ FileApp.prototype = {
                             
                             if (abNew == null) {
                                 itemCr.abonos.splice(0, 0, {
-                                                         "nuevo":1,
-                                                         "monto":document.getElementById('txtAbono').value,
-                                                         "fecha":fecha,
+                                                         "n":1,
+                                                         "m":document.getElementById('txtAbono').value,
+                                                         "f":fecha,
                                                          "uuid":generateUUID(),
                                                          "sh": getHour()
                                                      });
@@ -1158,7 +1158,7 @@ FileApp.prototype = {
                                 "fecha":fecha
                                 });*/                          
                             }else {
-                                abNew.monto = document.getElementById('txtAbono').value;
+                                abNew.m = document.getElementById('txtAbono').value;
                             }
                             
                             sumaTotal += parseFloat(document.getElementById('txtAbono').value);
@@ -1269,15 +1269,15 @@ FileApp.prototype = {
                     itemAb = itemCr.abonos[indexAb];
                     
                     dateSel = getSelDate();
-                    if (itemAb.fecha.toString().indexOf('/') > 0) {
-                        sp = itemAb.fecha.toString().split('/');
+                    if (itemAb.f.toString().indexOf('/') > 0) {
+                        sp = itemAb.f.toString().split('/');
                         dateCr = new Date(sp[2], parseFloat(sp[1]) - 1, sp[0]);
                     }else {
-                        sp = itemAb.fecha.toString().split('-');
+                        sp = itemAb.f.toString().split('-');
                         dateCr = new Date(sp[0], parseFloat(sp[1]) - 1, sp[2]);
                     }       
                     
-                    if (itemAb.nuevo == 1 && dateSel.getDate() == dateCr.getDate()) {
+                    if (itemAb.n == 1 && dateSel.getDate() == dateCr.getDate()) {
                         isNew = false;
                         break;
                     }
@@ -1368,7 +1368,7 @@ FileApp.prototype = {
                 for (indexAb=0;indexAb < itemCr.abonos.length;indexAb++) {
                     itemAb = itemCr.abonos[indexAb];
                     
-                    if (itemAb.nuevo === 1) {
+                    if (itemAb.n === 1) {
                         pos = index;
                         break;
                     }
@@ -1454,26 +1454,26 @@ FileApp.prototype = {
                     for (indexAb = 0; indexAb < itemCr.abonos.length; indexAb++) {
                         var itemAb = itemCr.abonos[indexAb];
                         dateSel = getSelDate();
-                        if (itemAb.fecha.toString().indexOf('/') > 0) {
-                            sp = itemAb.fecha.toString().split('/');
+                        if (itemAb.f.toString().indexOf('/') > 0) {
+                            sp = itemAb.f.toString().split('/');
                             dateCr = new Date(sp[2], parseFloat(sp[1]) - 1, sp[0]);
                         }else {
-                            sp = itemAb.fecha.toString().split('-');
+                            sp = itemAb.f.toString().split('-');
                             dateCr = new Date(sp[0], parseFloat(sp[1]) - 1, sp[2]);
                         }                                
-                        if (itemAb.nuevo == 1 && dateSel.getDate() == dateCr.getDate()) {
+                        if (itemAb.n == 1 && dateSel.getDate() == dateCr.getDate()) {
                             if (validatePay) {
                                 /*styleStr = ' style="background-color:green;color:white" ';
                                 color = ' style="background-color:green;color:white" ';*/
                                 classSelect = clsItem;
                                 
-                                cuota = itemAb.monto;
+                                cuota = itemAb.m;
                                 validatePay = false;
                             }
                             
                             sumaAbDia += 1;
                         }
-                        sumaTotal += parseFloat(itemAb.monto);
+                        sumaTotal += parseFloat(itemAb.m);
                     }
                     
                     if (parseFloat(sumaTotal) >= (parseFloat(itemCr.monto) + parseFloat(itemCr.interes))) {
@@ -1565,12 +1565,12 @@ FileApp.prototype = {
                             for (indexAbono = 0; indexAbono < itemCr.abonos.length; ++indexAbono) {
                                 itemAb = itemCr.abonos[indexAbono];
                                                                 
-                                var f = itemAb.fecha;                                
+                                var f = itemAb.f;                                
                                 var fL = f.split('-')
                                 var dt = new Date(fL[0], parseFloat(fL[1]) - 1, fL[2]);
                                 var dStr = dias[dt.getUTCDay()];
-                                var icon = parseFloat(itemAb.monto) > 0 ? 'ui-btn-icon-right':'';
-                                detailHistory.append('<li class="' + icon + '"><a> ' + dStr + ' ' + itemAb.fecha + ' - ' + itemAb.monto + '</a></li>');
+                                var icon = parseFloat(itemAb.m) > 0 ? 'ui-btn-icon-right':'';
+                                detailHistory.append('<li class="' + icon + '"><a> ' + dStr + ' ' + itemAb.f + ' - ' + itemAb.m + '</a></li>');
                             }            
                             break;                            
                         }                
@@ -2645,7 +2645,7 @@ function setDataBonus(it) {
                     if (itemCr.idCredito === idCredito) {
                         for (indexAbono = 0; indexAbono < itemCr.abonos.length; indexAbono++) {
                             itemAb = itemCr.abonos[indexAbono];
-                            if (itemAb.monto == 0) {
+                            if (itemAb.m == 0) {
                                 dCero += 1;
                             }
                         }            
@@ -2720,6 +2720,22 @@ function onResumeHistory(value) {
                      });
         
     //for (indexCr = 0; indexCr < item.creditos.length; indexCr++) {
+    
+    //validacion para evitar formatear
+    if (newValue.cliente) {
+        newValue.cliente.forEach(function(cl, i) {
+            if (cl.creditos) {
+                cl.creditos.forEach(function(cr, j) {
+                    if (cr.abonos) {
+                        if(cr.abonos[0].f){
+                            return newValue;
+                        }
+                    }
+                })
+            }
+        })
+    }
+    
     if (newValue.cliente) {
         newValue.cliente.forEach(function(cl, i) {
             if (cl.creditos) {
@@ -2748,8 +2764,18 @@ function onResumeHistory(value) {
                                 newAb.push(ab);
                             }
                         })
+                        
+                        var newItAb = [];
+                        newAb.forEach(function(abOld,l){
+                            var abNew = {
+                                "n":abOld.nuevo,
+                                "m":abOld.monto,
+                                "f":abOld.fecha
+                            };
+                            newItAb.push(abNew)
+                        });
                             
-                        cr.abonos = newAb;
+                        cr.abonos = newItAb;
                     }
                 })
             }
