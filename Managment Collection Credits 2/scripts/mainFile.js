@@ -639,7 +639,7 @@ FileApp.prototype = {
         var index, indexCr, indexAb, item, itemCr, itemAb, li;
         var agregar = false;
         var styleStr = '';
-
+showAlert(lst.length)
         for (index = 0; index < lst.length; index++) {
             item = lst[index];
             //data-role="list-divider"
@@ -2709,6 +2709,51 @@ function resetFileDataMCC() {
     alert('Archivo reiniciado');
 }
 
+function onValidateResumen(newValue){
+    
+    //validacion para evitar formatear
+    if (newValue.cliente) {
+        
+        for(vi = 0; vi < newValue.cliente.length; vi++){
+             var cl =    newValue.cliente[vi];
+             if (cl.creditos) {
+                 
+                 for(vj = 0; vj < cl.creditos.length; vj++){
+                     var cr = cl.creditos[vj];
+                     if (cr.abonos && cr.abonos.length) {
+                        
+                        if(cr.abonos[0].f){   
+                            return true;
+                            break;
+                            //return newValue;
+                        }else{
+                            return false;
+                            break;
+                        }
+                    }
+                 }
+                
+            }   
+        }
+        /*newValue.cliente.some(function(cl, i) {
+            if (cl.creditos) {
+                cl.creditos.some(function(cr, j) {
+                    if (cr.abonos && cr.abonos.length) {
+                        
+                        if(cr.abonos[0].f){                            
+                            return true;
+                            //return newValue;
+                        }else{
+                            return false;
+                        }
+                    }
+                })
+            }
+        })*/
+    }
+    
+    return false;
+}
 function onResumeHistory(value) {
     var newValue = JSON.parse(value);
         
@@ -2720,21 +2765,13 @@ function onResumeHistory(value) {
                      });
         
     //for (indexCr = 0; indexCr < item.creditos.length; indexCr++) {
+    var rV = onValidateResumen(newValue)
     
-    //validacion para evitar formatear
-    if (newValue.cliente) {
-        newValue.cliente.forEach(function(cl, i) {
-            if (cl.creditos) {
-                cl.creditos.forEach(function(cr, j) {
-                    if (cr.abonos) {
-                        if(cr.abonos[0].f){
-                            return newValue;
-                        }
-                    }
-                })
-            }
-        })
+    //showAlert(rV);    
+    if(rV){
+        return JSON.stringify(newValue);
     }
+    
     
     if (newValue.cliente) {
         newValue.cliente.forEach(function(cl, i) {
