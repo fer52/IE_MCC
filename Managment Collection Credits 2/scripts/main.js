@@ -20,7 +20,7 @@ mccApp.prototype = function() {
     run = function(){
         var that = this;
         //$seatPicker=$('#seatPicker');
-        
+        alert('test');
         $('#cliente').on('pagebeforeshow',$.proxy(_clearClient,that));
         $('#addcredito').on('pagebeforeshow',$.proxy(_clearCredito,that));
         $('#abono').on('pagebeforeshow',$.proxy(_clearAbono,that));
@@ -356,7 +356,7 @@ mccApp.prototype = function() {
         if (!_login) {
             
 	    	$('#btnLogin').click(function () {
-
+alert('click')
                 if(fileAppNew.validaLogin(document.getElementById('userName').value,document.getElementById('pwd').value)){                
                 }
                 _login = true;
