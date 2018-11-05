@@ -3,14 +3,14 @@
     xmlns:gap   = "http://phonegap.com/ns/1.0"
     id          = "com.phonegap.example"
     versionCode = "10"
-    version     = "1.0.0" >
+    version     = "1.1.01" >
 
 <!-- versionCode is optional and Android only -->
 
-  <name>PhoneGap MCC</name>
+  <name>IE MCC</name>
 
   <description>
-      An example for phonegap build docs.
+      MCC
   </description>
 
   <author href="https://build.phonegap.com" email="support@phonegap.com">
