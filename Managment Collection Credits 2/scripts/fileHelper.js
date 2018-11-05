@@ -8,7 +8,7 @@ FileSystemHelper.prototype = {
     writeLine: function(fileName, text, onSuccess, onError) {
 		var that = this;
 		var grantedBytes = 0;
-
+/*
         //DirectoryEntry
         var onDirectorySuccess = function(){
 
@@ -17,7 +17,7 @@ FileSystemHelper.prototype = {
 
         };
         directoryEntry.getDirectory("newDirTest", {create: true, exclusive: false}, onDirectorySuccess, onDirectoryFail)
-
+*/
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, grantedBytes,
 								 function(fileSystem) {
 									 that._createFile.call(that, fileSystem, fileName, text, onSuccess, onError);
