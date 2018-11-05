@@ -2229,9 +2229,9 @@ showAlert(lst.length)
             $.mobile.loading("hide")
             showAlert("Archivo generado " + fileDownName);
         }
-        function errDown() {
+        function errDown(errDesc) {
             $.mobile.loading("hide")
-            showAlert("Error al generar archivo, intente nuevamente " + fileDownName);
+            showAlert("Error al generar archivo, intente nuevamente " + fileDownName + ' - ' + errDesc);
         }        
         function readSuccessDown(text) {
             //localStorageApp.insertVariable('geoMcc', "");
