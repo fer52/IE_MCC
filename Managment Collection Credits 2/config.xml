@@ -7,10 +7,12 @@
 
 <!-- versionCode is optional and Android only -->
 
-  <name>IE MCC</name>
+    <icon src="icon.png" />
+
+  <name>Managment Collection</name>
 
   <description>
-      MCC
+      Administración de creditos
   </description>
 
   <author href="https://build.phonegap.com" email="support@phonegap.com">
