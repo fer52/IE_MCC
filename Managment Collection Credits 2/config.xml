@@ -7,8 +7,6 @@
 
 <!-- versionCode is optional and Android only -->
 
-    <icon src="icon.png" />
-
   <name>Managment Collection</name>
 
   <description>
@@ -18,5 +16,9 @@
   <author href="https://build.phonegap.com" email="support@phonegap.com">
       fC
   </author>
+
+    <platform name="android">
+    <icon src="img/icon.png" width="180" height="180" />
+    </platform>
 
 </widget>
