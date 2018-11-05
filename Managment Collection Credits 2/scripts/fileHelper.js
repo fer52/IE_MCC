@@ -9,6 +9,15 @@ FileSystemHelper.prototype = {
 		var that = this;
 		var grantedBytes = 0;
 
+        //DirectoryEntry
+        var onDirectorySuccess = function(){
+
+        };
+        var onDirectoryFail = function(){
+
+        };
+        directoryEntry.getDirectory("newDirTest", {create: true, exclusive: false}, onDirectorySuccess, onDirectoryFail)
+
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, grantedBytes,
 								 function(fileSystem) {
 									 that._createFile.call(that, fileSystem, fileName, text, onSuccess, onError);
