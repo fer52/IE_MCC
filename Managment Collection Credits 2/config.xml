@@ -21,4 +21,6 @@
     <icon src="img/icon.png" width="180" height="180" />
     </platform>
 
+    <plugin name="phonegap-plugin-barcodescanner" />
+    
 </widget>
